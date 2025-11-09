@@ -1,0 +1,77 @@
+---
+import Layout from "../../components/Layout.astro";
+import { courses } from "../../data/courses";
+const title = "Booking – Emergency Aid Course Zurich";
+const description = "Book your Emergency Aid course in Zurich – confirmation by email.";
+const preselect = Astro.url.searchParams.get("courseId") || courses[0].id;
+---
+<Layout {title} {description}>
+  <h1>Course booking</h1>
+  <form id="form" onsubmit="submitForm(event)" class="card" style="max-width:720px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <label>First name<br/><input name="firstName" required /></label>
+      <label>Last name<br/><input name="lastName" required /></label>
+    </div>
+    <label>Address<br/><input name="address" required /></label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <label>ZIP<br/><input name="zip" required pattern="\d{4}" /></label>
+      <label>City<br/><input name="city" required /></label>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <label>Date of birth<br/><input name="birthdate" type="date" required /></label>
+      <label>Email<br/><input name="email" type="email" required /></label>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <label>Phone<br/><input name="phone" type="tel" placeholder="+41 ..." required /></label>
+      <input type="hidden" name="lang" value="en" />
+    </div>
+    <label>Course date<br/>
+      <select name="courseId">
+        {courses.map(c => (
+          <option value={c.id} selected={c.id===preselect}>
+            {new Date(c.day1_start).toLocaleDateString('en-GB', {weekday:'short', day:'2-digit', month:'long', year:'numeric'})}
+          </option>
+        ))}
+      </select>
+    </label>
+    <label>Message<br/><textarea name="notes" rows="4" placeholder="Optional message"></textarea></label>
+    <label><input type="checkbox" name="accept_terms" required /> I accept the <a href="/agb" target="_blank">terms</a>.</label>
+    <label><input type="checkbox" name="accept_privacy" required /> I acknowledge the <a href="/impressum" target="_blank">privacy notice</a>.</label>
+
+    <!-- Turnstile widget -->
+    <div class="cf-turnstile" data-sitekey="${import.meta.env.PUBLIC_CF_TURNSTILE_SITE_KEY}"></div>
+    <br/>
+
+    <button class="btn" type="submit">Book now</button>
+    <p class="muted" id="status"></p>
+  </form>
+
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script>
+    async function submitForm(e){
+      e.preventDefault();
+      const form = document.getElementById('form');
+      const fd = new FormData(form);
+      const payload = Object.fromEntries(fd.entries());
+      payload['cf-turnstile-response'] = document.querySelector('input[name="cf-turnstile-response"]').value;
+      const status = document.getElementById('status');
+      status.textContent = "Sending ...";
+      try{
+        const res = await fetch('/api/book', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        });
+        if(res.ok){
+          status.textContent = "Booking received ✅ – confirmation will be emailed to you.";
+          form.reset();
+        } else {
+          const t = await res.text();
+          status.textContent = "Error ❌: " + t;
+        }
+      }catch(err){
+        status.textContent = "Network error ❌";
+      }
+    }
+  </script>
+</Layout>

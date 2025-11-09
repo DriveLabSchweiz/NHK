@@ -1,0 +1,82 @@
+---
+import Layout from "../components/Layout.astro";
+import { courses } from "../data/courses";
+const title = "Anmeldung – Nothelferkurs Zürich";
+const description = "Buche deinen Nothelferkurs in Zürich – Bestätigung per E-Mail.";
+const preselect = Astro.url.searchParams.get("courseId") || courses[0].id;
+---
+<Layout {title} {description}>
+  <h1>Kurs-Anmeldung</h1>
+  <form id="form" onsubmit="submitForm(event)" class="card" style="max-width:720px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <label>Vorname<br/><input name="firstName" required /></label>
+      <label>Name<br/><input name="lastName" required /></label>
+    </div>
+    <label>Adresse<br/><input name="address" required /></label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <label>PLZ<br/><input name="zip" required pattern="\d{4}" /></label>
+      <label>Ort<br/><input name="city" required /></label>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <label>Geburtsdatum<br/><input name="birthdate" type="date" required /></label>
+      <label>E-Mail<br/><input name="email" type="email" required /></label>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <label>Telefon<br/><input name="phone" type="tel" placeholder="+41 ..." required /></label>
+      <label>Sprache<br/>
+        <select name="lang">
+          <option value="de" selected>Deutsch</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+    </div>
+    <label>Kurs-Termin<br/>
+      <select name="courseId">
+        {courses.map(c => (
+          <option value={c.id} selected={c.id===preselect}>
+            {new Date(c.day1_start).toLocaleDateString('de-CH', {weekday:'short', day:'2-digit', month:'long', year:'numeric'})}
+          </option>
+        ))}
+      </select>
+    </label>
+    <label>Bemerkungen<br/><textarea name="notes" rows="4" placeholder="Optionale Nachricht"></textarea></label>
+    <label><input type="checkbox" name="accept_terms" required /> Ich akzeptiere die <a href="/agb" target="_blank">AGB</a>.</label>
+    <label><input type="checkbox" name="accept_privacy" required /> Ich habe die <a href="/impressum" target="_blank">Datenschutzhinweise</a> zur Kenntnis genommen.</label>
+
+    <!-- Turnstile widget -->
+    <div class="cf-turnstile" data-sitekey="${import.meta.env.PUBLIC_CF_TURNSTILE_SITE_KEY}"></div>
+    <br/>
+
+    <button class="btn" type="submit">Verbindlich anmelden</button>
+    <p class="muted" id="status"></p>
+  </form>
+
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script>
+    async function submitForm(e){
+      e.preventDefault();
+      const form = document.getElementById('form');
+      const fd = new FormData(form);
+      const payload = Object.fromEntries(fd.entries());
+      payload['cf-turnstile-response'] = document.querySelector('input[name="cf-turnstile-response"]').value;
+      const status = document.getElementById('status');
+      status.textContent = "Sende ...";
+      try{
+        const res = await fetch('/api/book', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        });
+        if(res.ok){
+          status.textContent = "Anmeldung eingegangen ✅ – Bestätigung folgt per E-Mail.";
+          form.reset();
+        } else {
+          const t = await res.text();
+          status.textContent = "Fehler ❌: " + t;
+        }
+      }catch(err){
+        status.textContent = "Netzwerkfehler ❌";
+      }
+    }
+  </script>
+</Layout>

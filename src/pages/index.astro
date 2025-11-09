@@ -1,0 +1,46 @@
+---
+import Layout from "../components/Layout.astro";
+const title = "Nothelferkurs Zürich – offizieller Erste-Hilfe-Kurs mit Zertifikat";
+const description = "Buche deinen Nothelferkurs in Zürich: 2 Tage, praxisnah, schnelle Bestätigung. Termine & Anmeldung online.";
+---
+<Layout {title} {description}>
+  <section class="hero">
+    <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
+      <img src="/images/hero_cpr.jpg" alt="Nothelferkurs Zürich – Herzmassage an Puppe" style="max-width:420px;border-radius:12px" />
+      <div>
+        <h1>Nothelferkurs Zürich</h1>
+        <p>Praxisnaher Erste‑Hilfe‑Kurs in Zürich – anerkannt für die Autoprüfung. Sichere dir jetzt deinen Platz.</p>
+        <p><a class="btn" href="/anmeldung">Kursplatz buchen</a></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="toc">
+    <strong>Inhalt</strong>
+    <ul>
+      <li><a href="#vorteile">Vorteile</a></li>
+      <li><a href="#termine">Termine</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </div>
+
+  <section id="vorteile" class="grid">
+    <div class="card"><h3>Schnell zur Bestätigung</h3><p>Bescheinigung direkt nach Kursende.</p></div>
+    <div class="card"><h3>Top‑Instruktoren</h3><p>Erfahrene Kursleiter mit Fahrpraxis.</p></div>
+    <div class="card"><h3>Zentrale Lage</h3><p>Gut erreichbar in Zürich.</p></div>
+  </section>
+
+  <section id="termine">
+    <h2>Bevorstehende Kurse</h2>
+    <p>Siehe <a href="/kurse">alle Termine</a> oder <a href="/anmeldung">direkt anmelden</a>.</p>
+    <img src="/images/classroom_cpr1.jpg" alt="Reanimationstraining" loading="lazy" />
+    <img src="/images/classroom_cpr2.jpg" alt="Defibrillator-Training" loading="lazy" />
+    <img src="/images/erste_hilfe_box.jpg" alt="Erste Hilfe Material" loading="lazy" />
+  </section>
+
+  <section id="faq">
+    <h2>FAQ</h2>
+    <details><summary>Ist der Kurs anerkannt?</summary><p>Ja, schweizweit anerkannt.</p></details>
+    <details><summary>Wie lange dauert der Kurs?</summary><p>2 Tage: Tag 1 (18:00–21:00), Tag 2 (09:00–17:00).</p></details>
+  </section>
+</Layout>

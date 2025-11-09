@@ -1,0 +1,48 @@
+---
+import Layout from "../components/Layout.astro";
+import { courses } from "../data/courses";
+const title = "Kurse & Termine – Nothelferkurs Zürich";
+const description = "Alle Nothelferkurs-Termine in Zürich mit Online-Anmeldung.";
+const jsonld = {
+  "@context": "https://schema.org",
+  "@graph": courses.map(c => ({
+    "@type": ["Event","EducationEvent"],
+    "name": "Nothelferkurs Zürich – 2 Tage",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "startDate": c.day1_start,
+    "endDate": c.day2_end,
+    "eventSchedule": [
+      { "@type": "Schedule", "startDate": c.day1_start, "endDate": c.day1_end },
+      { "@type": "Schedule", "startDate": c.day2_start, "endDate": c.day2_end }
+    ],
+    "location": {
+      "@type": "Place",
+      "name": c.locationName,
+      "address": { "@type": "PostalAddress", "addressLocality": c.city, "addressCountry": c.country }
+    },
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": c.currency,
+      "price": c.price,
+      "availability": "https://schema.org/InStock",
+      "url": "https://nothelferkurs-zuerich.ch/anmeldung"
+    },
+    "organizer": { "@type": "Organization", "name": "Nothelferkurs Zürich" }
+  }))
+};
+---
+<Layout {title} {description}>
+  <h1>Kurse & Termine</h1>
+  <p>Die Kurse finden an zwei Tagen statt: Tag 1 (18:00–21:00) und Tag 2 (09:00–17:00, inkl. 1h Pause).</p>
+  <ul>
+    {courses.map(c => (
+      <li>
+        <strong>{new Date(c.day1_start).toLocaleDateString('de-CH', {weekday:'short', day:'2-digit', month:'long', year:'numeric'})}</strong>
+        &nbsp;–&nbsp;
+        <a href={"/anmeldung?courseId="+c.id}>Jetzt anmelden</a>
+      </li>
+    ))}
+  </ul>
+  <script type="application/ld+json">{JSON.stringify(jsonld)}</script>
+</Layout>

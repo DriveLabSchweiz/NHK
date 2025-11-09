@@ -1,0 +1,48 @@
+---
+import Layout from "../../components/Layout.astro";
+import { courses } from "../../data/courses";
+const title = "Courses & Dates – Emergency Aid Course Zurich";
+const description = "All Emergency Aid (Nothelfer) course dates in Zurich with online booking.";
+const jsonld = {
+  "@context": "https://schema.org",
+  "@graph": courses.map(c => ({
+    "@type": ["Event","EducationEvent"],
+    "name": "Emergency Aid Course Zurich – 2 days",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "startDate": c.day1_start,
+    "endDate": c.day2_end,
+    "eventSchedule": [
+      { "@type": "Schedule", "startDate": c.day1_start, "endDate": c.day1_end },
+      { "@type": "Schedule", "startDate": c.day2_start, "endDate": c.day2_end }
+    ],
+    "location": {
+      "@type": "Place",
+      "name": c.locationName,
+      "address": { "@type": "PostalAddress", "addressLocality": c.city, "addressCountry": c.country }
+    },
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": c.currency,
+      "price": c.price,
+      "availability": "https://schema.org/InStock",
+      "url": "https://nothelferkurs-zuerich.ch/en/booking"
+    },
+    "organizer": { "@type": "Organization", "name": "Emergency Aid Zurich" }
+  }))
+};
+---
+<Layout {title} {description}>
+  <h1>Courses & Dates</h1>
+  <p>Two-day course: Day 1 (18:00–21:00), Day 2 (09:00–17:00, incl. 1h lunch).</p>
+  <ul>
+    {courses.map(c => (
+      <li>
+        <strong>{new Date(c.day1_start).toLocaleDateString('en-GB', {weekday:'short', day:'2-digit', month:'long', year:'numeric'})}</strong>
+        &nbsp;–&nbsp;
+        <a href={"/en/booking?courseId="+c.id}>Book now</a>
+      </li>
+    ))}
+  </ul>
+  <script type="application/ld+json">{JSON.stringify(jsonld)}</script>
+</Layout>

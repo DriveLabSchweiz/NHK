@@ -1,0 +1,27 @@
+---
+import { courses } from "../../data/courses";
+---
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kurstermine – Embed</title>
+<style>
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif}
+  .list{padding:10px}
+  .item{padding:8px 12px;border-bottom:1px solid #eee}
+  a.btn{display:inline-block;padding:6px 10px;background:#ff9c00;color:#000;border-radius:8px;text-decoration:none}
+</style>
+</head>
+<body>
+  <div class="list">
+    {courses.map(c => (
+      <div class="item">
+        <strong>{new Date(c.day1_start).toLocaleDateString('de-CH', {weekday:'short', day:'2-digit', month:'long', year:'numeric'})}</strong>
+        <a class="btn" target="_blank" href={"https://nothelferkurs-zuerich.ch/anmeldung?courseId="+c.id}>Anmelden</a>
+      </div>
+    ))}
+  </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+---
+export interface Props { title?: string; description?: string; }
+const { title = "Nothelferkurs Zürich", description = "Nothelferkurse in Zürich – Anmeldung & Termine" } = Astro.props;
+---
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/images/hero_cpr.jpg" />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="preconnect" href="https://api.mailgun.net" />
+    <link rel="dns-prefetch" href="https://api.mailgun.net" />
+    <link rel="stylesheet" href="/src/styles/global.css" />
+      <link rel="alternate" href="https://nothelferkurs-zuerich.ch/" hreflang="de" />
+      <link rel="alternate" href="https://nothelferkurs-zuerich.ch/en/" hreflang="en" />
+      <link rel="alternate" href="https://nothelferkurs-zuerich.ch/" hreflang="x-default" />
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <img src="/images/logo.png" alt="Nothelferkurs Zürich Logo" style="height:34px;vertical-align:middle" />
+        <nav style="float:right;font-weight:600">
+          <a href="/">Start</a>
+          <a href="/kurse">Kurse</a>
+          <a href="/anmeldung">Anmeldung</a>
+          <a href="/kontakt">Kontakt</a>
+        </nav>
+        <div style="clear:both"></div>
+      </div>
+    </header>
+    <main>
+      <div class="wrap">
+        <slot />
+      </div>
+    </main>
+    <footer>
+      <div class="wrap">
+        <div>© {new Date().getFullYear()} Nothelferkurs Zürich · <a href="/kontakt">Kontakt</a></div>
+        <div class="muted">Schnell, sicher, schweizweit anerkannt.</div>
+      </div>
+    </footer>
+  </body>
+</html>
