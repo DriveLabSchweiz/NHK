@@ -16,30 +16,33 @@ const { title = "Nothelferkurs Zürich", description = "Nothelferkurse in Züric
     <link rel="preconnect" href="https://api.mailgun.net" />
     <link rel="dns-prefetch" href="https://api.mailgun.net" />
     <link rel="stylesheet" href="/src/styles/global.css" />
-      <link rel="alternate" href="https://nothelferkurs-zuerich.ch/" hreflang="de" />
-      <link rel="alternate" href="https://nothelferkurs-zuerich.ch/en/" hreflang="en" />
-      <link rel="alternate" href="https://nothelferkurs-zuerich.ch/" hreflang="x-default" />
+    <!-- hreflang alternates -->
+    <link rel="alternate" href="https://nothelferkurs-zuerich.ch/" hreflang="de" />
+    <link rel="alternate" href="https://nothelferkurs-zuerich.ch/en/" hreflang="en" />
+    <link rel="alternate" href="https://nothelferkurs-zuerich.ch/" hreflang="x-default" />
   </head>
   <body>
+    <!-- Site header with logo and navigation -->
     <header>
       <div class="wrap">
-        <img src="/images/logo.png" alt="Nothelferkurs Zürich Logo" style="height:34px;vertical-align:middle" />
-        <nav style="float:right;font-weight:600">
+        <img src="/images/logo.png" alt="Nothelferkurs Zürich Logo" />
+        <nav>
           <a href="/">Start</a>
           <a href="/kurse">Kurse</a>
           <a href="/anmeldung">Anmeldung</a>
           <a href="/kontakt">Kontakt</a>
         </nav>
-        <div style="clear:both"></div>
       </div>
     </header>
+    <!-- Main content -->
     <main>
       <div class="wrap">
         <slot />
       </div>
     </main>
+    <!-- Site footer -->
     <footer>
-      <div class="wrap">
+      <div class="wrap" style="flex-direction:column;align-items:flex-start;gap:0.5rem">
         <div>© {new Date().getFullYear()} Nothelferkurs Zürich · <a href="/kontakt">Kontakt</a></div>
         <div class="muted">Schnell, sicher, schweizweit anerkannt.</div>
       </div>

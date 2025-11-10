@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { courses } from '../../../data/courses';
+import { courses } from '../../data/courses';
 
 function findCourse(id: string){
   return courses.find(c => c.id === id);
@@ -88,10 +88,10 @@ const c = findCourse(courseId);
       subject: conf.subject,
       text: conf.text + `\n\nContact: ${name} / ${email} / ${phone}\nAddress: ${address}, ${zip} ${city}\nDOB: ${birthdate}\nNotes: ${notes || ''}`
     });
+    if(admin) body1.append('bcc', admin);
     let resp1 = await fetch(`https://api.mailgun.net/v3/${mgDomain}/messages`, {
       method: 'POST',
       headers: { Authorization: `Basic ${Buffer.from(`api:${mgKey}`).toString('base64')}` },
-      if(admin) body1.append('bcc', admin);
       body: body1
     });
     if (!resp1.ok) {

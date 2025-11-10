@@ -4,14 +4,15 @@ const title = "Nothelferkurs Zürich – offizieller Erste-Hilfe-Kurs mit Zertif
 const description = "Buche deinen Nothelferkurs in Zürich: 2 Tage, praxisnah, schnelle Bestätigung. Termine & Anmeldung online.";
 ---
 <Layout {title} {description}>
+  <!-- Hero section with background image and call to action -->
   <section class="hero">
-    <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
-      <img src="/images/hero_cpr.jpg" alt="Nothelferkurs Zürich – Herzmassage an Puppe" style="max-width:420px;border-radius:12px" />
-      <div>
-        <h1>Nothelferkurs Zürich</h1>
-        <p>Praxisnaher Erste‑Hilfe‑Kurs in Zürich – anerkannt für die Autoprüfung. Sichere dir jetzt deinen Platz.</p>
-        <p><a class="btn" href="/anmeldung">Kursplatz buchen</a></p>
-      </div>
+    <div class="content">
+      <h1>Nothelferkurs Zürich</h1>
+      <p>
+        Praxisnaher Erste‑Hilfe‑Kurs in Zürich – anerkannt für die Autoprüfung.
+        Sichere dir jetzt deinen Platz.
+      </p>
+      <a class="btn" href="/anmeldung">Kursplatz buchen</a>
     </div>
   </section>
 
@@ -32,10 +33,30 @@ const description = "Buche deinen Nothelferkurs in Zürich: 2 Tage, praxisnah, s
 
   <section id="termine">
     <h2>Bevorstehende Kurse</h2>
-    <p>Siehe <a href="/kurse">alle Termine</a> oder <a href="/anmeldung">direkt anmelden</a>.</p>
-    <img src="/images/classroom_cpr1.jpg" alt="Reanimationstraining" loading="lazy" />
-    <img src="/images/classroom_cpr2.jpg" alt="Defibrillator-Training" loading="lazy" />
-    <img src="/images/erste_hilfe_box.jpg" alt="Erste Hilfe Material" loading="lazy" />
+    <p>
+      Siehe <a href="/kurse">alle Termine</a> oder
+      <a href="/anmeldung">direkt anmelden</a>.
+    </p>
+    <div class="grid">
+      <img
+        src="/images/classroom_cpr1.jpg"
+        alt="Reanimationstraining"
+        loading="lazy"
+        style="width:100%;border-radius:12px"
+      />
+      <img
+        src="/images/classroom_cpr2.jpg"
+        alt="Defibrillator-Training"
+        loading="lazy"
+        style="width:100%;border-radius:12px"
+      />
+      <img
+        src="/images/erste_hilfe_box.jpg"
+        alt="Erste Hilfe Material"
+        loading="lazy"
+        style="width:100%;border-radius:12px"
+      />
+    </div>
   </section>
 
   <section id="faq">
