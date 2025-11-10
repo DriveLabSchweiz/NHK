@@ -1,7 +1,5 @@
 {
-  "functions": {
-    "**/*.func/**": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "astro"
 }
